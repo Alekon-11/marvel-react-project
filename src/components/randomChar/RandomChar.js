@@ -1,8 +1,12 @@
 import {Component} from 'react';
 
-import './randomChar.scss';
 import MarvelService from '../../services/MarvelService';
 import mjolnir from '../../resources/img/mjolnir.png';
+// import Spinner from '../spiner/Spiner';
+// import Error from '../error/Error';
+
+import './randomChar.scss';
+
 
 class RandomChar extends Component{
     state = {

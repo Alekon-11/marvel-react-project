@@ -1,0 +1,43 @@
+@import '../../style/variables.scss';
+
+.error{
+    max-width: 80%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    align-items: center;
+}
+
+.error__sign{
+    margin-right: 40px;
+    position: relative;
+    min-width: 120px;
+    height: 120px;
+    background-color: $main-color;
+    border-radius: 50%;
+}
+
+.error__sign::before,
+.error__sign::after{
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 65%;
+    height: 10%;
+    background-color: #fff;    
+}
+
+.error__title{
+    font-weight: 700;
+    font-size: 26px;
+}
+
+.error__sign::before{transform: translate(-50%, -50%) rotate(45deg);}
+.error__sign::after{transform: translate(-50%, -50%) rotate(-45deg);}
