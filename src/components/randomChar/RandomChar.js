@@ -2,15 +2,17 @@ import {Component} from 'react';
 
 import MarvelService from '../../services/MarvelService';
 import mjolnir from '../../resources/img/mjolnir.png';
-// import Spinner from '../spiner/Spiner';
-// import Error from '../error/Error';
+import Spinner from '../spinner/Spinner';
+import Error from '../error/Error';
 
 import './randomChar.scss';
 
 
 class RandomChar extends Component{
     state = {
-        char: {}
+        char: {},
+        spinner: true,
+        error: false
     }
 
     marvelService = new MarvelService();
@@ -20,36 +22,35 @@ class RandomChar extends Component{
     }
 
     onCharLoaded = (char) => {
-        this.setState({char}) // объект, приходящий из res сам подстраиваеттся под свойства State объекта
+        this.setState({char, spinner: false, error: false}) // объект, приходящий из res сам подстраиваеттся под свойства State объекта
+    }
+
+    onError = () => {
+        this.setState({spinner: false, error: true})
     }
 
     updateChar = () => {
         const id = Math.round(Math.random() * (1011400 - 1011000) + 1011000);
 
+        this.setState({spinner: true, error: false});
+
         this.marvelService.getCharacter(id)
-        .then(this.onCharLoaded)               // таким образом, res будет сам вызывать функцию и подставляться в качестве аргумента
-        .catch(() => console.log('blaBlaBla'));
+        .then(this.onCharLoaded) 
+        .catch(this.onError);
     }
 
     render(){
-        const {char:{thumbnail, name, descr, homepage, wiki}} = this.state;
+        const {char, spinner, error} = this.state;
+        const loading = spinner ? <Spinner /> : null;
+        const errorMessage = error ? <Error /> : null;
+        const content = !spinner && !error ? <View char={char} /> : null;
 
         return (
             <div className="randomchar">
                 <div className="randomchar__block">
-                    <img src={thumbnail} alt="Random character" className="randomchar__img"/>
-                    <div className="randomchar__info">
-                        <p className="randomchar__name">{name}</p>
-                        <p className="randomchar__descr">{descr ? `${descr.slice(0,370)}...` : 'Description not found...'}</p>
-                        <div className="randomchar__btns">
-                            <a href={homepage} className="button button__main">
-                                <div className="inner">homepage</div>
-                            </a>
-                            <a href={wiki} className="button button__secondary">
-                                <div className="inner">Wiki</div>
-                            </a>
-                        </div>
-                    </div>
+                    {loading}
+                    {errorMessage}
+                    {content}
                 </div>
                 <div className="randomchar__static">
                     <p className="randomchar__title">
@@ -66,8 +67,32 @@ class RandomChar extends Component{
                 </div>
             </div>
         )
-    }
-    
+    } 
+}
+
+function View({char}){
+    let {thumbnail, name, descr, homepage, wiki} = char;
+
+    const description = descr ? `${descr.length > 210 ? `${descr.slice(0,210)}...` : descr}` : 'Description not found...'
+    const imgStyle = /image_not_available/ig.test(thumbnail) ? {objectFit: 'contain'} : null;
+
+    return (
+        <>
+            <img src={thumbnail} style={imgStyle} alt="Random character" className="randomchar__img"/>
+            <div className="randomchar__info">
+                <p className="randomchar__name">{name}</p>
+                <p className="randomchar__descr">{description}</p>
+                <div className="randomchar__btns">
+                    <a href={homepage} className="button button__main">
+                        <div className="inner">homepage</div>
+                    </a>
+                    <a href={wiki} className="button button__secondary">
+                        <div className="inner">Wiki</div>
+                    </a>
+                </div>
+            </div>
+        </>
+    )
 }
 
 export default RandomChar;

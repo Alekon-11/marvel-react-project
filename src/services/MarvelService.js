@@ -6,7 +6,7 @@ class MarvelService{
     getResource = async (url) => {
         const res = await fetch(url);
         if(!res.ok){
-            throw new Error(alert(`Oops, error ${res.status}! Try again later`))
+            throw new Error(`Oops, error ${res.status}! Try again later`);
         }
 
         return res.json();
@@ -29,7 +29,8 @@ class MarvelService{
             name: res.name,
             descr: res.description,
             homepage: res.urls[0].url,
-            wiki: res.urls[1].url
+            wiki: res.urls[1].url,
+            comics: res.comics.items
         };
     }
 }

@@ -4,12 +4,18 @@ import AppHeader from "../appHeader/AppHeader";
 import RandomChar from "../randomChar/RandomChar";
 import CharList from "../charList/CharList";
 import CharInfo from "../charInfo/CharInfo";
-import MarvelService from "../../services/MarvelService";
+// import MarvelService from "../../services/MarvelService";
 
 import decoration from '../../resources/img/vision.png';
 
 class App extends Component{
-    MarvelService = new MarvelService();
+    state = {
+        charId: null
+    }
+
+    onGetCharId = (id) => {
+        this.setState({charId: id})
+    }
 
     render(){
         return (
@@ -18,8 +24,8 @@ class App extends Component{
                 <main>
                     <RandomChar />
                     <div className="char__content">
-                        <CharList/>
-                        <CharInfo/>
+                        <CharList onGetCharId={this.onGetCharId}/>
+                        <CharInfo charId={this.state.charId}/>
                     </div>
                     <img className="bg-decoration" src={decoration} alt="vision"/>
                 </main>
