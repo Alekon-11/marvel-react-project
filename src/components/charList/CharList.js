@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import Error from '../error/Error';
 import Spinner from '../spinner/Spinner';
 import MarvelService from '../../services/MarvelService';
@@ -11,7 +13,7 @@ class CharList extends Component {
         error: false,
         spinner: true,
         newCharsLoading: false,
-        offset: 1540,
+        offset: 210,
         offsetEnd: false
     }
 
@@ -45,6 +47,12 @@ class CharList extends Component {
         this.setState({error: true, spinner: false, newCharsLoading: false});
     }
 
+    onShowChar = (e, id) => {
+        if(e.keyCode === 13){
+            this.props.onGetCharId(id);
+        }
+    }
+
     render() {
         const {charData, error, spinner, newCharsLoading, offsetEnd} = this.state
 
@@ -54,7 +62,11 @@ class CharList extends Component {
             const imgStyle = /image_not_available/ig.test(thumbnail) ? {objectFit: 'contain'} : null;
 
             return (
-                <li key={id} onClick={() => this.props.onGetCharId(id)} className="char__item">
+                <li key={id} 
+                    onKeyUp={(e) => this.onShowChar(e,id)} 
+                    tabIndex="0" 
+                    onClick={() => this.props.onGetCharId(id)} 
+                className="char__item">
                     <img src={thumbnail} style={imgStyle} alt={name}/>
                     <div className="char__name">{name}</div>
                 </li>
@@ -83,6 +95,10 @@ class CharList extends Component {
             </div>
         )
     }
+}
+
+CharList.propTypes = {
+    onGetCharId: PropTypes.func.isRequired
 }
 
 export default CharList;
