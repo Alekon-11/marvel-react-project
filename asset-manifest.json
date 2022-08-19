@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/marvel-react-project/static/css/main.c89111c9.css",
+    "main.js": "/marvel-react-project/static/js/main.6cd0e26f.js",
+    "static/media/vision.png": "/marvel-react-project/static/media/vision.067d4ae1936d64a577ce.png",
+    "static/media/mjolnir.png": "/marvel-react-project/static/media/mjolnir.61f31e1809f12183a524.png",
+    "index.html": "/marvel-react-project/index.html",
+    "main.c89111c9.css.map": "/marvel-react-project/static/css/main.c89111c9.css.map",
+    "main.6cd0e26f.js.map": "/marvel-react-project/static/js/main.6cd0e26f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c89111c9.css",
+    "static/js/main.6cd0e26f.js"
+  ]
+}
